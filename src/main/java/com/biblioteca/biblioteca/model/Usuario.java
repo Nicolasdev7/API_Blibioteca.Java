@@ -1,6 +1,10 @@
 package com.biblioteca.biblioteca.model;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
 @Entity
 public class Usuario {
@@ -16,17 +20,19 @@ public class Usuario {
 
     private String senha;
 
-    private String role; // Ex: ROLE_USER ou ROLE_ADMIN
+    private String role;
+
+    private String matricula;
 
     // Construtores
-    public Usuario() {
-    }
+    public Usuario() {}
 
-    public Usuario(String nome, String email, String senha, String role) {
+    public Usuario(String nome, String email, String senha, String role, String matricula) {
         this.nome = nome;
         this.email = email;
         this.senha = senha;
         this.role = role;
+        this.matricula = matricula;
     }
 
     // Getters e Setters
@@ -68,5 +74,13 @@ public class Usuario {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public String getMatricula() {
+        return matricula;
+    }
+
+    public void setMatricula(String matricula) {
+        this.matricula = matricula;
     }
 }
