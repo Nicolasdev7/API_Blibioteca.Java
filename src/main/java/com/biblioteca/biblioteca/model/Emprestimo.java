@@ -85,6 +85,9 @@ public class Emprestimo<Usuario> {
     }
 
     // Método para marcar o empréstimo como devolvido
+    /**
+     * 
+     */
     public void devolver() {
         this.devolvido = true;
         this.dataDevolucao = LocalDate.now();
