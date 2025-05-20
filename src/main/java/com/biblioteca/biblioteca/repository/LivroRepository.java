@@ -9,23 +9,29 @@ import com.biblioteca.biblioteca.model.Livro;
 
 public interface LivroRepository extends JpaRepository<Livro, Long> {
 
-    // Consulta para encontrar livros por título
-    List<Livro> findByTitulo(String titulo);
+    // Busca livros pelo título (case insensitive)
+    List<Livro> findByTituloIgnoreCase(String titulo);
 
-    // Consulta para encontrar livros por autor
-    List<Livro> findByAutor(String autor);
+    // Busca livros pelo autor (case insensitive)
+    List<Livro> findByAutorIgnoreCase(String autor);
 
-    // Consulta para encontrar livros por categoria
-    List<Livro> findByCategoria(String categoria);
+    // Busca livros pela categoria (case insensitive)
+    List<Livro> findByCategoriaIgnoreCase(String categoria);
 
-    // Consulta para verificar se o livro está disponível
+    // Busca livros disponíveis ou não
     List<Livro> findByDisponivel(boolean disponivel);
 
-    // Exemplo de consulta personalizada com @Query
-    @Query("SELECT l FROM Livro l WHERE l.autor = :autor AND l.categoria = :categoria")
+    // Busca livros por autor e categoria (case insensitive)
+    @Query("SELECT l FROM Livro l WHERE LOWER(l.autor) = LOWER(:autor) AND LOWER(l.categoria) = LOWER(:categoria)")
     List<Livro> findLivrosByAutorAndCategoria(String autor, String categoria);
 
-    // Exemplo de consulta para contar o número de livros disponíveis
+    // Conta o número de livros disponíveis
     @Query("SELECT COUNT(l) FROM Livro l WHERE l.disponivel = true")
     long countLivrosDisponiveis();
+
+    // Busca livros pelo título contendo parte do texto (case insensitive)
+    List<Livro> findByTituloContainingIgnoreCase(String titulo);
+
+    // Busca livros pelo autor contendo parte do texto (case insensitive)
+    List<Livro> findByAutorContainingIgnoreCase(String autor);
 }

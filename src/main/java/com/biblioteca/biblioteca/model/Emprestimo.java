@@ -1,29 +1,32 @@
 package com.biblioteca.biblioteca.model;
 
 import java.time.LocalDate;
+import java.util.Objects;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToOne;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
-public class Emprestimo<Usuario> {
+public class Emprestimo {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotNull
     @ManyToOne
     private Livro livro;
 
+    @NotNull
     @ManyToOne
     private Usuario usuario;
 
     private LocalDate dataEmprestimo;
     private LocalDate dataDevolucao;
-    private boolean devolvido = false;
 
     // Construtores
     public Emprestimo() {}
@@ -32,7 +35,6 @@ public class Emprestimo<Usuario> {
         this.livro = livro;
         this.usuario = usuario;
         this.dataEmprestimo = LocalDate.now();
-        this.devolvido = false;
     }
 
     // Getters e Setters
@@ -77,20 +79,36 @@ public class Emprestimo<Usuario> {
     }
 
     public boolean isDevolvido() {
-        return devolvido;
+        return dataDevolucao != null;
     }
 
-    public void setDevolvido(boolean devolvido) {
-        this.devolvido = devolvido;
-    }
-
-    // Método para marcar o empréstimo como devolvido
-    /**
-     * 
-     */
     public void devolver() {
-        this.devolvido = true;
+        if (isDevolvido()) throw new IllegalStateException("Empréstimo já devolvido.");
         this.dataDevolucao = LocalDate.now();
-        this.livro.setDisponivel(true); // Deixa o livro disponível novamente
+        this.livro.setDisponivel(true);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Emprestimo)) return false;
+        Emprestimo that = (Emprestimo) o;
+        return Objects.equals(id, that.id);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Emprestimo{" +
+                "id=" + id +
+                ", livro=" + livro +
+                ", usuario=" + usuario +
+                ", dataEmprestimo=" + dataEmprestimo +
+                ", dataDevolucao=" + dataDevolucao +
+                '}';
     }
 }
