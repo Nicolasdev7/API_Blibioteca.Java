@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -33,7 +35,8 @@ public class Livro {
 
     private boolean disponivel = true;
 
-    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "livro", cascade = CascadeType.ALL)
+    @JsonIgnore
     private List<Emprestimo> emprestimos = new ArrayList<>();
 
     public Livro() {}
@@ -60,8 +63,13 @@ public class Livro {
     public boolean isDisponivel() { return disponivel; }
     public void setDisponivel(boolean disponivel) { this.disponivel = disponivel; }
 
-    public List<Emprestimo> getEmprestimos() { return emprestimos; }
-    public void setEmprestimos(List<Emprestimo> emprestimos) { this.emprestimos = emprestimos; }
+    public List<Emprestimo> getEmprestimos() {
+        return emprestimos;
+    }
+
+    public void setEmprestimos(List<Emprestimo> emprestimos) {
+        this.emprestimos = emprestimos;
+    }
 
     @Override
     public boolean equals(Object o) {
