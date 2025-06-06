@@ -7,7 +7,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.validation.constraints.NotNull;
 
@@ -20,12 +19,10 @@ public class Emprestimo {
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "livro_id", nullable = false)
     private Livro livro;
 
     @NotNull
     @ManyToOne
-    @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
     private LocalDate dataEmprestimo;

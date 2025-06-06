@@ -1,17 +1,12 @@
 package com.biblioteca.biblioteca.model;
 
-import java.util.List;
 import java.util.Objects;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -43,10 +38,6 @@ public class Usuario {
     @Size(max = 20, message = "Matrícula deve ter no máximo 20 caracteres")
     private String matricula;
 
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL)
-    @JsonIgnore
-    private List<Emprestimo> emprestimos;
-
     public Usuario() {}
 
     public Usuario(String nome, String email, String senha, String role, String matricula) {
@@ -74,9 +65,6 @@ public class Usuario {
 
     public String getMatricula() { return matricula; }
     public void setMatricula(String matricula) { this.matricula = matricula; }
-
-    public List<Emprestimo> getEmprestimos() { return emprestimos; }
-    public void setEmprestimos(List<Emprestimo> emprestimos) { this.emprestimos = emprestimos; }
 
     @Override
     public boolean equals(Object o) {
