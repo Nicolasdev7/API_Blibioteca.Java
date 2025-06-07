@@ -49,7 +49,8 @@ public class LivroController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        if (!livroRepository.existsById(id)) {
+        Optional<Livro> LivroResponse = livroRepository.findById(id);
+        if (!LivroResponse.isPresent()) {
             return ResponseEntity.notFound().build();
         }
         livroRepository.deleteById(id);
