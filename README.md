@@ -11,6 +11,7 @@ Microserviço desenvolvido em Java com Spring Boot para gerenciamento de uma bib
 - 🗃️ **Spring Data JPA**
 - 🔐 **Spring Security**
 - 💾 **Banco de Dados H2** (desenvolvimento/teste)
+- 🐘 **PostgreSQL** (produção, opcional)
 - 📖 **Swagger/OpenAPI** (documentação)
 - 🧪 **JUnit 5 & Mockito** (testes)
 - 🐳 **Docker** (deploy)
