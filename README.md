@@ -1,6 +1,6 @@
 # 📚 API Biblioteca
 
-Microserviço desenvolvido em Java com Spring Boot para gerenciamento de uma biblioteca, aplicando conceitos de POO, arquitetura RESTful, persistência com banco relacional e boas práticas de desenvolvimento.
+Microserviço completo para gerenciamento de biblioteca, desenvolvido em Java 21 com Spring Boot, arquitetura RESTful, autenticação, persistência em banco relacional e deploy pronto para produção (Render/Docker). O projeto segue boas práticas de POO, testes automatizados e documentação via Swagger.
 
 ---
 
@@ -11,7 +11,7 @@ Microserviço desenvolvido em Java com Spring Boot para gerenciamento de uma bib
 - 🗃️ **Spring Data JPA**
 - 🔐 **Spring Security**
 - 💾 **Banco de Dados H2** (desenvolvimento/teste)
-- 🐘 **PostgreSQL** (produção, opcional)
+- 🐘 **PostgreSQL** (produção)
 - 📖 **Swagger/OpenAPI** (documentação)
 - 🧪 **JUnit 5 & Mockito** (testes)
 - 🐳 **Docker** (deploy)
@@ -26,21 +26,45 @@ Microserviço desenvolvido em Java com Spring Boot para gerenciamento de uma bib
 - Java 21+
 - Maven 3.9+
 - Docker (opcional, para rodar em container)
+- PostgreSQL (para produção/local, se não usar H2)
 
-### ▶️ Rodando localmente
+### ▶️ Rodando localmente (H2 ou PostgreSQL)
 
-```sh
-./mvnw spring-boot:run
-```
+1. **Clone o repositório:**
+   ```sh
+   git clone https://github.com/Nicolasdev7/API_Blibioteca.Java.git
+   cd API_Blibioteca.Java
+   ```
 
-Acesse: [http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+2. **Configure o banco de dados:**
+   - Por padrão, usa H2 em memória para desenvolvimento.
+   - Para usar PostgreSQL local, edite `src/main/resources/application.properties`:
+     ```properties
+     spring.datasource.url=jdbc:postgresql://localhost:5432/biblioteca
+     spring.datasource.username=SEU_USUARIO
+     spring.datasource.password=SUA_SENHA
+     ```
 
-### 🐳 Rodando com Docker
+3. **Inicie a aplicação:**
+   ```sh
+   ./mvnw spring-boot:run
+   ```
+   Acesse: [http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
 
-```sh
-docker build -t biblioteca .
-docker run -p 8080:8080 biblioteca
-```
+### 🌐 Deploy em produção (Render/Docker)
+
+- **Render:**  
+  Configure as variáveis de ambiente no painel do Render:
+  - `DATABASE_URL`
+  - `DATABASE_USERNAME`
+  - `DATABASE_PASSWORD`
+  > O projeto já está preparado para ler essas variáveis automaticamente.
+
+- **Docker:**
+  ```sh
+  docker build -t biblioteca .
+  docker run -p 8080:8080 biblioteca
+  ```
 
 ---
 
@@ -52,14 +76,14 @@ docker run -p 8080:8080 biblioteca
 - `PUT /livros/{id}` - Atualizar livro
 - `DELETE /livros/{id}` - Remover livro
 - `GET /livros?autor=...` - Buscar livros por autor
-- (Outros endpoints para usuários e empréstimos)
+- (Endpoints para usuários e empréstimos também disponíveis)
 
 ---
 
 ## 📘 Documentação da API
 
 Acesse a documentação interativa em:  
-[http://localhost:8080/swagger-ui.html](http://localhost:8080/swagger-ui.html)
+[http://localhost:8081/swagger-ui.html](http://localhost:8081/swagger-ui.html)
 
 ---
 
@@ -80,24 +104,36 @@ Acesse a documentação interativa em:
   - Estrutura básica da API, controladores de erros e modelo de banco de dados
   - Otimização das pastas do projeto
   - Melhoria do pom.xml, adição de SecurityConfig e .dockerignore
-  - Adição do README
-  - Melhorou a modelagem do projeto
+  - Configuração para variáveis de ambiente no Render
+  - Ajustes finais para produção e permissões do banco
 
 - **Carlos-Eduardo18**
   - Adição da classe Usuario
-  - Melhorou o README, adicionando um exemplo de uso da API e divisão de tarefas entre os membros
+  - Melhoria do README, exemplos de uso e divisão de tarefas
   - Documentação do projeto
 
 - **Kadu212450**
   - Atualização do LivroController e demais controllers
   - PowerPoint do Trabalho
+
 - **BRikSO**
-  - Melhorou as 3 Clases: Empréstimo, Livro e Usuário
-  - Alocou o banco de dados com PostgreSQL
+  - Melhorias nas classes Empréstimo, Livro e Usuário
+  - Integração com PostgreSQL
 
 - **Cruz**
-  - Fez os testes unitários com JUnit 5 + Mockito
-  - Fez uma cobertura mínima de 90% com JaCoCo 
+  - Testes unitários com JUnit 5 + Mockito
+  - Cobertura mínima de 90% com JaCoCo
+
+---
+
+## 📦 Histórico de Commits
+
+- Configuração do banco e permissões para produção
+- Uso de variáveis de ambiente do Render
+- Finalização do microserviço e resolução de conflitos
+- Melhoria da modelagem, controllers e testes
+- Documentação e exemplos de uso
+
 ---
 
 ## Exemplos de uso da API
@@ -119,7 +155,9 @@ POST /livros
 ```
 GET /livros
 ```
+
 ### ✏️ Atualizar um livro
+
 ```json
 PUT /livros/1
 Content-Type: application/json
@@ -131,26 +169,19 @@ Content-Type: application/json
   "disponivel": false
 }
 ```
+
 ### ❌ Deletar um livro
+
 ```
 DELETE /livros/1
 ```
 
-### 📝 Explicação:
-Demonstramos como utilizar a API na prática por meio de requisições HTTP simuladas. Esses exemplos mostram:
-- 📘 Como enviar dados para criar um livro (POST)
-- 📚 Como recuperar todos os livros existentes (GET)
-- ✏️ Como atualizar os dados de um livro específico (PUT)
-- ❌ Como remover um livro do sistema (DELETE)
-
-Esses exemplos ajudam desenvolvedores a entender rapidamente como interagir com a API, facilitando testes e integração com outras aplicações. Todos os exemplos seguem o formato REST e utilizam JSON como padrão de troca de dados.
-
 ---
 
-## 🧾 Observações
+## 📝 Observações
 
-- Para desenvolvimento e testes, o projeto utiliza o banco H2 em memória.
-- Para produção, basta configurar um banco relacional (MySQL/PostgreSQL) no `application.properties` se necessário.
+- Para desenvolvimento e testes, o projeto utiliza o banco H2 em memória por padrão.
+- Para produção, configure um banco relacional (PostgreSQL) via variáveis de ambiente.
 - Usuário padrão para autenticação:
   - **Usuário:** admin
   - **Senha:** admin123
